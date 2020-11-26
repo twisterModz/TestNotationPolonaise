@@ -32,6 +32,51 @@ namespace TestNotationPolonaise
         /// Saisie de formules en notation polonaise pour tester la fonction de calcul
         /// </summary>
         /// <param name="args"></param>
+        
+        static float Polonaise(string laFormule)
+        {
+            //transformation formule en vecteur
+            string[] vec = laFormule.Split(' ');
+
+            //nombre de case remplie
+            int nbcases = vec.Length;
+
+            //boucle tant qu'il reste plus d'une case
+            while(nbcases > 1 )
+            {
+                // recherche d'un signe à partir de la fin
+                int k = nbcases - 1;
+                while (k>0 && vec[k]!="+" && vec[k] != "-" && vec[k] != "*" && vec[k] != "/")
+                {
+                    k--;
+                }
+                //récupération des 2 valeurs numériques
+                float v1 = float.Parse(vec[k + 1]);
+                float v2 = float.Parse(vec[k + 2]);
+
+                //calcul 
+                float result = 0;
+                switch (vec[k])
+                {
+                    case "+": result = v1 + v2; break;
+                    case "-": result = v1 - v2; break;
+                    case "*": result = v1 * v2; break;
+                    case "/": result = v1 / v2; break;
+                }
+
+                // stockage du résultat
+                vec[k] = result.ToString();
+
+                // décalages de 2 cases pour la suite du vecteur (supprimer 2 cases)
+                for(int j=k+1; j < nbcases -2; j++)
+                {
+                    vec[j] = vec[j + 2];
+                }
+                nbcases -= 2;
+            }
+            //retourner le resultat
+            return float.Parse(vec[0]);
+        }
         static void Main(string[] args)
         {
             char reponse;
